@@ -1,0 +1,67 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block cart_content %}
+<div class="row" style = 'width: 100%'>
+	<div class="col-lg-12">
+		<div class="box-element">
+			
+
+			<a  class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Continue Shopping</a>
+
+			<br>
+			<br>
+			<table class="table">
+				<tr>
+					<th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th>
+					<th><h5>Total:<strong> {{order.get_cart_total}}</strong></h5></th>
+					<th>
+						<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+					</th>
+				</tr>
+			</table>
+
+		</div>
+
+		<br>
+		<div class="box-element">
+			<div class="cart-row">
+				<div style="flex:2"></div>
+				<div style="flex:2"><strong>Item</strong></div>
+				<div style="flex:1"><strong>Price</strong></div>
+				<div style="flex:1"><strong>Quantity</strong></div>
+				<div style="flex:1"><strong>Total</strong></div>
+			</div>
+			{% for item in items %}
+			<div class="cart-row">
+				<div style="flex:2"><img class="row-image" src="{{item.product.ImageURL}}"></div>
+				<div style="flex:2"><p>{{item.product.name}}</p></div>
+				<div style="flex:1"><p>{{item.product.gia}}</p></div>
+				<div style="flex:1">
+					<p class="quantity">{{item.quantity}}</p>
+					<div class="quantity">
+						<img data-product = {{item.product.id}} data-action = 'add' class="chg-quantity update-cart" src="{% static  'app/images/arrow-up.png' %}">
+				
+						<img data-product = {{item.product.id}} data-action = 'remove' class="chg-quantity update-cart" src="{% static  'app/images/arrow-down.png' %}">
+					</div>
+				</div>
+				<div style="flex:1"><p>${{item.product.gia}}</p></div>
+			</div>
+			{% endfor %}
+			<style>
+				.row-image {
+				   max-width: 100px; 
+				   height: auto;  
+				}
+			  </style>
+			  <style>
+				/* CSS Dynamic Styling */
+				.quantity-btn {
+					width: calc(30px + 5px * var(--quantity, 1)); /* Tăng kích thước 5px cho mỗi đơn vị số lượng */
+					height: calc(30px + 5px * var(--quantity, 1));
+				}
+			</style>
+
+		</div>
+	</div>
+</div>
+{% endblock cart_content %}

@@ -1,0 +1,41 @@
+{% extends 'app/base.html'%}
+{% load static %}
+{% block title %}All Prediction{% endblock %}
+
+{% block content  %}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <table class="table">
+                <thead>
+                  
+                  <tr>
+                    <th scope="col"></th> 
+                    <th scope="col">date_block_num</th>
+                    <th scope="col">shop_id</th>
+                    <th scope="col">item_id</th>
+                    <th scope="col">item_price</th>
+                    <th scope="col">item_cnt_day</th>
+                    <th scope="col">name</th>
+                    <th scope="col">Prediction</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for data in predicted_sales %}
+                  <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ data.date_block_num }}</td>
+                    <td>{{ data.shop_id }}</td>
+                    <td>{{ data.item_id }}</td>
+                    <td>{{ data.item_price }}</td>
+                    <td>{{ data.item_cnt_day }}</td>
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.predictions }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
