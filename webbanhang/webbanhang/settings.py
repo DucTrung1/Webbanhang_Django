@@ -148,3 +148,10 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.FormParser',
     )
 }
+
+
+VNPAY_RETURN_URL = 'http://localhost:8000/payment_return'  # get from config
+VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'  # get from config
+VNPAY_API_URL = 'https://sandbox.vnpayment.vn/merchant_webapi/api/transaction'
+VNPAY_TMN_CODE = 'PQU7YUNS'  # Website ID in VNPAY System, get from config
+VNPAY_HASH_SECRET_KEY = '8X5KFQOE0MER4IG1HFW6RCDQ48W1VC57'  # Secret key for create checksum,get from config

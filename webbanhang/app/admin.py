@@ -10,3 +10,5 @@ admin.site.register(ItemCategory)
 class DataAdmin(admin.ModelAdmin):
     list_display = ('name','date_block_num','shop_id','item_id','item_price','item_cnt_day','predictions')
 admin.site.register(Data, DataAdmin)
+admin.site.register(Payment_VNPay)
+

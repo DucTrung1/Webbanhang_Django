@@ -54,7 +54,7 @@
 
           <button data-product = {{product.id}} data-action = "add" class = "btn btn-outline-secondary add-btn update-cart">Them vao gio hang</button>
           <a class = "btn btn-outline-success" href = "{% url 'detail' %}?id={{product.id}}">Xem</a>
-          <h3 style = "display: inline-block; float: right"><strong>${{product.gia | floatformat:2}}</strong></h3>
+          <h3 style = "display: inline-block; float: right"><strong>{{product.gia | floatformat:2}} VND</strong></h3>
       </div>
   </div>
   {% endfor %}

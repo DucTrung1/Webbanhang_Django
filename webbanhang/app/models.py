@@ -4,6 +4,27 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MaxValueValidator, MinValueValidator
 import joblib
+from django import forms
+from django.core.exceptions import ValidationError
+from django.core.validators import RegexValidator
+
+
+class Payment_VNPay(models.Model):
+    order_id = models.CharField(max_length=50, null=True, blank=True)
+    amount = models.FloatField(default=0.0, null=True, blank=True)
+    order_desc = models.CharField(max_length=200,null=True, blank=True)
+    vnp_TransactionNo = models.CharField(max_length=200,null=True, blank=True)
+    vnp_ResponseCode = models.CharField(max_length=200,null=True, blank=True)
+   
+
+
+class PaymentForm(forms.Form):
+    order_id = forms.CharField(max_length=50)
+    order_type = forms.CharField(max_length=20)
+    amount = forms.IntegerField()
+    order_desc = forms.CharField(max_length=100)
+    bank_code = forms.CharField(max_length=20, required=False)
+    language = forms.CharField(max_length=2)
 
 
 class Data(models.Model):
@@ -57,6 +78,7 @@ class Product(models.Model):
     digital = models.BooleanField(default=False)
     image = models.ImageField(null=True, blank=True)
     detail = models.TextField(null=True,blank=True)
+    
 
     def __str__(self):
         return self.name 
@@ -101,9 +123,13 @@ class OrderItem(models.Model):
         return total
 
 
+def validate_email(value):
+    if not value.endswith('@gmail.com'):
+        raise ValidationError("Email must end with '@gmail.com'.")
+
 class ShippingAddress(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
-    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    email = models.CharField(max_length=100, validators=[validate_email])
     address = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
