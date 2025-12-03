@@ -1,5 +1,6 @@
-{% extends 'app/base.html'%}
+{% extends 'app/base.html' %}
 {% load static %}
+{% load humanize %}
 {% block banner_slider %} 
 <div id="carouselExampleDark" class="carousel carousel-dark slide">
     <div class="carousel-indicators">
@@ -9,24 +10,24 @@
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active" data-bs-interval="10000">
-        <img src="{%static 'app/images/mobile.jpg'%}" class="d-block w-100" alt="mobile" height = "480">
+        <img src="{% static 'app/images/P1.png' %}" class="d-block w-100" alt="acura" height="600">
         <div class="carousel-caption d-none d-md-block bg-success text-white">
-          <h5> Điện thoại di động </h5>
-          <p>Các chức năng mượt mà  và chip chơi game mạnh mẽ.</p>
+          <h5>Động cơ mạnh mẽ</h5>
+          <p>Các công nghệ mượt mà.</p>
         </div>
       </div>
       <div class="carousel-item" data-bs-interval="2000">
-        <img src="{%static 'app/images/C1.jpg'%}" class="d-block w-100" alt="camera"height = "480">
+        <img src="{% static 'app/images/R1.png' %}" class="d-block w-100" alt="sedan" height="600">
         <div class="carousel-caption d-none d-md-block bg-success text-white">
-          <h5>Camera </h5>
-          <p>Chụp ảnh chất lượng cao.</p>
+          <h5>Tính năng vượt trội</h5>
+          <p>Đảm bảo tính ổn định khi lái xe</p>
         </div>
       </div>
       <div class="carousel-item">
-        <img src="{%static 'app/images/h1.jpg'%}" class="d-block w-100" alt="headphone"height = "480">
+        <img src="{% static 'app/images/L1.png' %}" class="d-block w-100" alt="suv" height="600">
         <div class="carousel-caption d-none d-md-block bg-success text-white">
-          <h5>Headphone</h5>
-          <p>Chống ồn cao cấp.</p>
+          <h5>Thoải mái, dễ chịu</h5>
+          <p>Thiết kế phù hợp với mọi lứa tuổi khi trải nghiệm ngồi trên xe</p>
         </div>
       </div>
     </div>
@@ -38,30 +39,25 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
+</div>
+{% endblock banner_slider %}
 
-{%endblock banner_slider%}
-
-{%block main_content%}.
-<div class = "row" style = "width:100%">
+{% block main_content %}
+<div class="row" style="width:100%;">
   {% for product in products %}
-
-  <div class = "col-lg-3"><!--"col-lg-4"> 1 hang chua bao nhieu san pham-->
-      <img class = "thumbnail" src = "{{product.ImageURL}}">
-      <div class = "box-element product">
-          <h6><strong> {{product.name}} </strong></h6>
+    <div class="col-lg-3">
+      <img class="thumbnail" src="{{ product.ImageURL }}" alt="{{ product.name }}">
+      <div class="box-element product">
+          <h6><strong>{{ product.name }}</strong></h6>
           <hr>
-
-          <button data-product = {{product.id}} data-action = "add" class = "btn btn-outline-secondary add-btn update-cart">Them vao gio hang</button>
-          <a class = "btn btn-outline-success" href = "{% url 'detail' %}?id={{product.id}}">Xem</a>
-          <h3 style = "display: inline-block; float: right"><strong>{{product.gia | floatformat:2}} VND</strong></h3>
+          <button data-product="{{ product.id }}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Thêm vào giỏ hàng</button>
+          <a class="btn btn-outline-success" href="{% url 'detail' %}?id={{ product.id }}">Xem</a>
+          <h3 style="display: inline-block; float: right;">
+              <strong>{{ product.gia|floatformat:0|intcomma }} VND</strong>
+          </h3>
       </div>
-  </div>
+    </div>
   {% endfor %}
-    
-    
-
 </div> 
-<br /><br /><br />
-{%endblock main_content%}
-
+<br><br><br>
+{% endblock main_content %}

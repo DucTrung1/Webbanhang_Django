@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load humanize %}
 {% load static %}
 {% block checkout_content %}
      <div class="row" style = 'width: 100%'>
@@ -32,12 +33,12 @@
 				<div class="cart-row">
 					<div style="flex:2"><img class="row-image" src="{{item.product.ImageURL}}"></div>
 					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>${{item.product.gia}}</p></div>
+					<div style="flex:1"><strong>{{ item.product.gia|floatformat:0|intcomma }} VND</strong></div>
 					<div style="flex:1"><p>{{item.quantity}}</p></div>
 				</div>
 				{% endfor %}
 				<h5>Items:   {{order.get_cart_items}}</h5>
-				<h5>Total:  {{order.get_cart_total}} VND</h5>
+				<h5>Total:  {{ order.get_cart_total|floatformat:0|intcomma }} VND</h5>
 			</div>
 		</div>
 		

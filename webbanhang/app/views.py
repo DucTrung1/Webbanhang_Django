@@ -1,6 +1,11 @@
+from ast import FormattedValue
+import os
+from PIL import Image
+from django import template
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect, JsonResponse
 from scipy.spatial.distance import cdist
+import torch
 from .models import *
 import json
 from django.contrib.auth.forms import UserCreationForm
@@ -12,9 +17,8 @@ from django.core import serializers
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
-import pickle
-import joblib
 
+import torch
 import numpy as np
 from sklearn import preprocessing
 import pandas as pd
@@ -37,15 +41,109 @@ from app.vnpay import vnpay
 
 import sqlite3 
 from .forms import ShippingForm  
+from torchvision.models import resnet18
+
+from .models import Data  
+from django.contrib.auth.decorators import login_required
 
 
 
-'''def update_stock(product_id, quantity):
-    conn = sqlite3.connect('db.sqlite3')
-    cursor = conn.cursor()
-    cursor.execute("UPDATE products SET stock = stock - ? WHERE id = ?", (quantity, product_id))
-    conn.commit()
-    conn.close()'''
+
+class MLP(nn.Module):
+    def __init__(self, input_size):
+        super(MLP, self).__init__()
+        self.fc1 = nn.Linear(input_size, 50)
+        self.fc2 = nn.Linear(50, 25)
+        self.fc3 = nn.Linear(25, 1)
+
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+def data_create(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = OrderItem.objects.filter(order=order)
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_items': 0, 'get_cart_total': 0}
+        cartItems = order['get_cart_items']
+    
+    form = DataForm()
+    predicted_price = None
+    actual_price = None
+
+    if request.method == 'POST':
+        form = DataForm(request.POST)
+        if form.is_valid():
+            mmr = form.cleaned_data['mmr']
+            condition = form.cleaned_data['condition']
+            odometer = form.cleaned_data['odometer']
+
+            model_path = 'D:/VanLangUniversity/VANLANG_UNIVERSITY/KHOALUAN/Trang_web_ban_hang_va_du_doan/webbanhang/app/templates/app/car_price_model_4.pth'
+            checkpoint = torch.load(model_path, map_location=torch.device('cpu'))
+            input_size = 3
+            model = MLP(input_size)
+            model.load_state_dict(checkpoint['model_state_dict'])
+            model.eval()
+
+            scaler = checkpoint['scaler']
+
+            X_new = pd.DataFrame([[mmr, condition, odometer]], columns=['mmr', 'condition', 'odometer'])
+            X_new_scaled = scaler.transform(X_new)
+            X_new_tensor = torch.FloatTensor(X_new_scaled)
+
+            with torch.no_grad():
+                prediction = model(X_new_tensor)
+                predicted_price = prediction.item()
+
+            actual_price = checkpoint['sellingprice']
+
+            checkpoint['sellingprice'] = predicted_price
+            torch.save(checkpoint, model_path)
+
+    context = {
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+        'form': form,
+        'actual_price': actual_price,
+        'predicted_price': predicted_price
+    }
+    return render(request, 'app/predictions.html', context)
+
+
+
+
+
+
+
+
+def predictions(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = OrderItem.objects.filter(order=order)
+        cartItems = order.get_cart_items
+    else:
+        items = []
+        order = {'get_cart_items': 0, 'get_cart_total': 0}
+        cartItems = order['get_cart_items']
+
+    predicted_sales = Data.objects.all()  
+
+    context = {
+        'predicted_sales': predicted_sales,  
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+    }
+
+    return render(request, 'app/predictions.html', context)
 
 def indexs(request):
     return render(request, "payment/indexs.html", {"title": "Danh sách demo"})
@@ -338,16 +436,9 @@ def index(request):
 
 
 
-def predictions(request):
-    predicted_sales = Data.objects.all()
-    context = {
-        'predicted_sales': predicted_sales
-    }
-    
-    return render(request, 'app/predictions.html',context)
+
 
 #@api_view(["POST"])
-
 def detail(request):
     if request.user.is_authenticated:
         customer = request.user
@@ -364,6 +455,9 @@ def detail(request):
 
     context = {'products':products,'categories':categories,'items': items, 'order': order,'cartItems': cartItems}
     return render(request, 'app/detail.html', context)
+
+    #products = Product.objects.filter(id=id)    
+
 
 def category(request):
     if request.method == "POST":
@@ -445,10 +539,11 @@ def home(request):
         order = {'get_cart_items': 0, 'get_cart_total':0}
         cartItems = order['get_cart_items']
     categories = Category.objects.filter(is_sub=False)
-    
     products = Product.objects.all()
     context = {'products': products, 'cartItems': cartItems,'categories':categories}
     return render(request, 'app/home.html', context)
+
+
 
 def cart(request):
     if request.user.is_authenticated:
@@ -475,17 +570,6 @@ def checkout(request):
     else:
         items = []
         order = {'get_cart_items': 0, 'get_cart_total':0}
-        cartItems = order['get_cart_items']
-    
-    # Xử lý dữ liệu form
-    if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = OrderItem.objects.filter(order=order)
-        cartItems = order.get_cart_items
-    else:
-        items = []
-        order = {'get_cart_items': 0, 'get_cart_total': 0}
         cartItems = order['get_cart_items']
 
     # Xử lý dữ liệu form
@@ -520,7 +604,7 @@ def updateItem(request):
     orderItem.save()
     if orderItem.quantity <=0:
         orderItem.delete()
-
+    
     return JsonResponse('added', safe = False)
 
 

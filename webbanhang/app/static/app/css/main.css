@@ -1,110 +1,157 @@
-/* Background color */
+/* Màu nền cho toàn bộ trang */
 body {
     background-color: hsl(0, 0%, 98%);
 }
-
-/* Heading colors */
+.search-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 440px;
+    /* Adjust these values for centering as needed */
+  }
+  .search {
+    position: absolute;
+    top: 50%;
+    left: 61%;
+    transform: translate(-50%, -50%);
+    /* Adjust these values for centering as needed */
+  }
+  .logout {
+    position: absolute;
+    top: 50%;
+    left: 93%;
+    transform: translate(-50%, -50%);
+    /* Adjust these values for centering as needed */
+  }
+  .dangnhap {
+    position: absolute;
+    top: 50%;
+    left: 89.5%;
+    transform: translate(-50%, -50%);
+    /* Adjust these values for centering as needed */
+  }
+  .hello {
+    position: absolute;
+    top: 50%;
+    left: 84%;
+    transform: translate(-50%, -50%);
+    /* Adjust these values for centering as needed */
+  }
+  .cartt {
+    position: absolute;
+    top: 50%;
+    left: 95%;
+    transform: translate(-50%, -50%);
+    /* Adjust these values for centering as needed */
+  }
+/* Màu cho tất cả các tiêu đề (h1, h2, h3, h4, h5, h6) */
 h1, h2, h3, h4, h5, h6 {
     color: hsl(0, 0%, 30%);
 }
 
-/* Box element styles */
-.box-element {
-    box-shadow: hsl(0, 0%, 80%) 0 0 16px;
-    background-color: #fff;
-    border-radius: 4px;
-    padding: 5px;
+/* Kiểu cho phần tử hộp (box-element) */
+.box-element1 {
+    box-shadow: hsl(0, 0%, 80%) 0 0 16px; /* Đổ bóng cho hộp */
+    background-color: #fff; /* Màu nền trắng cho hộp */
+    border-radius: 4px; /* Bo tròn các góc của hộp */
+    padding: 5px; /* Khoảng cách bên trong hộp */
+    width: 2000px;
+    
 }
 
-/* Thumbnail styles */
+/* Kiểu cho hình thu nhỏ (thumbnail) */
 .thumbnail {
-    width: 350px;
-    height: 200px;
-    box-shadow: -1px -3px 5px -2px rgba(214, 214, 214, 1);
+    width: 500px; /* Chiều rộng của hình thu nhỏ */
+    height: 350px; /* Chiều cao của hình thu nhỏ */
+    box-shadow: -1px -3px 5px -2px rgba(214, 214, 214, 1); /* Đổ bóng cho hình thu nhỏ */
 }
 
-/* Product styles */
+/* Kiểu cho sản phẩm (product) */
 .product {
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px; /* Bo tròn các góc phía dưới của sản phẩm */
 }
 
-/* Dark background color */
+/* Màu nền tối */
 .bg-dark {
-    background-color: #4f868c!important;
+    background-color: #4f868c!important; /* Màu nền tối cho các phần tử có lớp này */
 }
 
-/* Cart icon styles */
 #cart-icon {
-    width: 25px;
-    display: inline-block;
-    margin-left: 15px;
+    width: 25px; /* Chiều rộng của biểu tượng giỏ hàng */
+    display: inline-block; /* Hiển thị biểu tượng giỏ hàng theo kiểu inline-block */
+    margin-left: 15px; /* Khoảng cách bên trái của biểu tượng giỏ hàng */
+    position: relative; /* Thiết lập ngữ cảnh định vị cho các phần tử con */
 }
 
-/* Cart total styles */
+/* Kiểu cho số lượng trong giỏ hàng */
 #cart-total {
-    display: block;
-    text-align: center;
-    color: #fff;
-    background-color: red;
-    width: 20px;
-    height: 25px;
-    border-radius: 50%;
-    font-size: 14px;
+    position: absolute; /* Đặt định vị tuyệt đối */
+    top: -12px; /* Vị trí cách phía trên một chút */
+    right: -12px; /* Vị trí cách phía phải một chút */
+    text-align: center; /* Căn giữa văn bản */
+    color: #fff; /* Màu chữ trắng */
+    background-color: red; /* Màu nền đỏ */
+    width: 20px; /* Chiều rộng của vòng tròn */
+    height: 20px; /* Chiều cao của vòng tròn */
+    border-radius: 50%; /* Bo tròn để tạo thành hình tròn hoàn hảo */
+    font-size: 14px; /* Kích thước chữ */
+    line-height: 20px; /* Căn giữa chữ theo chiều dọc */
 }
 
-/* Grid column margin */
+/* Khoảng cách trên cho các cột trong lưới */
 .col-lg-3, .col-lg-4, .col-lg-6, .col-lg-8, .col-lg-12 {
-    margin-top: 10px;
+    margin-top: 50px; /* Khoảng cách trên 10px */
 }
 
-/* Button styles */
+/* Kiểu cho nút bấm */
 .btn {
-    border-radius: 0;
+    border-radius: 0; /* Không bo tròn các góc của nút bấm */
 }
 
-/* Image column width */
+/* Chiều rộng cho cột chứa hình ảnh */
 .row-image {
-    width: 100px;
+    width: 100px; /* Chiều rộng 100px */
 }
 
-/* Form field styles */
+/* Kiểu cho trường nhập liệu trong biểu mẫu */
 .form-field {
-    width: 250px;
-    display: inline-block;
-    padding: 5px;
+    width: 250px; /* Chiều rộng 250px */
+    display: inline-block; /* Hiển thị theo kiểu inline-block */
+    padding: 5px; /* Khoảng cách bên trong 5px */
 }
 
-/* Cart row styles */
+/* Kiểu cho hàng trong giỏ hàng */
 .cart-row {
-    display: flex;
-    align-items: flex-stretch;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ececec;
+    display: flex; /* Hiển thị theo kiểu flexbox */
+    align-items: flex-stretch; /* Căn các mục con để chúng kéo dài toàn bộ chiều cao của phần tử cha */
+    padding-bottom: 30px; /* Khoảng cách dưới 10px */
+    margin-bottom: 10px; /* Khoảng cách dưới giữa các hàng 10px */
+    border-bottom: 1px solid #ececec; /* Đường viền dưới màu xám nhạt */
 }
 
-/* Quantity styles */
+/* Kiểu cho số lượng */
 .quantity {
-    display: inline-block;
-    font-weight: 700;
-    padding-right: 10px;
+    display: inline-block; /* Hiển thị theo kiểu inline-block */
+    font-weight: 700; /* Độ dày chữ 700 */
+    padding-right: 10px; /* Khoảng cách bên phải 10px */
 }
 
-/* Change quantity styles */
+/* Kiểu cho thay đổi số lượng */
 .chg-quantity {
-    width: 12px;
-    cursor: pointer;
-    display: block;
-    margin-top: 5px;
-    transition: .1s;
+    width: 12px; /* Chiều rộng 12px */
+    cursor: pointer; /* Hiển thị con trỏ khi hover */
+    display: block; /* Hiển thị theo kiểu block */
+    margin-top: 5px; /* Khoảng cách trên 5px */
+    transition: .1s; /* Thời gian chuyển đổi 0.1 giây */
 }
 
-/* Hover effect for change quantity */
+/* Hiệu ứng hover cho thay đổi số lượng */
 .chg-quantity:hover {
-    opacity: .6;
+    opacity: .6; /* Giảm độ mờ khi hover */
 }
 
-/* Hide element */
+/* Ẩn phần tử */
 .hidden {
-    display: none!important;
+    display: none!important; /* Ẩn phần tử với độ ưu tiên cao */
 }

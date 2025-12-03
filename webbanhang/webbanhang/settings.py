@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'app',
     'crispy_forms',
     'crispy_bootstrap5',
@@ -83,8 +84,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sitesales',
         'USER': 'root',
-        'PASSWORD': '123456789',
-        'HOST': 'localhost',
+        'PASSWORD': '123456',
+        'HOST': 'db',  
+        
+        'PORT': '3306',
     }
 }
 # settings.py
@@ -150,8 +153,8 @@ REST_FRAMEWORK = {
 }
 
 
-VNPAY_RETURN_URL = 'http://localhost:8000/payment_return'  # get from config
-VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'  # get from config
+VNPAY_RETURN_URL = 'http://localhost:8000/payment_return'  
+VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'  
 VNPAY_API_URL = 'https://sandbox.vnpayment.vn/merchant_webapi/api/transaction'
-VNPAY_TMN_CODE = 'PQU7YUNS'  # Website ID in VNPAY System, get from config
-VNPAY_HASH_SECRET_KEY = '8X5KFQOE0MER4IG1HFW6RCDQ48W1VC57'  # Secret key for create checksum,get from config
+VNPAY_TMN_CODE = 'PQU7YUNS'  
+VNPAY_HASH_SECRET_KEY = '8X5KFQOE0MER4IG1HFW6RCDQ48W1VC57'  

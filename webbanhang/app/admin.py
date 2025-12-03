@@ -3,12 +3,13 @@ from .models import *
 from .models import ItemCategory
 admin.site.register(Product)
 admin.site.register(Category)
-admin.site.register(Order)  # Sửa chính tả từ Oder thành Order
-admin.site.register(OrderItem)  # Sửa chính tả từ OderItem thành OrderItem
+admin.site.register(Order)  
+admin.site.register(OrderItem)  
 admin.site.register(ShippingAddress)
 admin.site.register(ItemCategory)
 class DataAdmin(admin.ModelAdmin):
-    list_display = ('name','date_block_num','shop_id','item_id','item_price','item_cnt_day','predictions')
+    list_display = ('mmr', 'condition', 'odometer')
+
 admin.site.register(Data, DataAdmin)
 admin.site.register(Payment_VNPay)
 

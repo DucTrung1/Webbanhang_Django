@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  # Service 1: Database MySQL
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: sitesales     # Tên DB muốn tạo
+      MYSQL_ROOT_PASSWORD: 123456   # Mật khẩu root
+    volumes:
+      - mysql_data:/var/lib/mysql   # Giữ lại dữ liệu kể cả khi tắt Docker
+    ports:
+      - "3307:3306"
+
+  # Service 2: Django App
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app                      # Code sửa ở ngoài sẽ cập nhật vào trong ngay lập tức
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db                          # Chờ DB chạy xong mới chạy Web
+
+volumes:
+  mysql_data:

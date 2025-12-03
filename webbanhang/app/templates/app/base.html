@@ -1,9 +1,4 @@
 {% load  static %}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!-<![endif]-->
 <html>
     <head>
         <meta charset="utf-8">
@@ -76,27 +71,32 @@
                   <a class="nav-link" href="{% url 'cart' %}">Cart</a>
                 </li>
                   <li class="nav-item">
-                    <a class="nav-link " aria-disabled="true">  Lien he ho tro</a>
+                    <a class="nav-link " href="{% url 'data_create' %}">  predict </a>
                   </li>
                 </ul>
-                <form class="d-flex" role="search" method = POST action = "{% url "search" %}">
+                <form class="d-flex" role="search" method = POST action = "{% url "search" %}" >
                   {% csrf_token %}
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name = "searched">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <input class="search-box" type="search" placeholder="Search"  aria-label="Search" name = "searched" >
+                  <button class="search" type="submit">Search</button>
                 </form>
               </div>
               <!--phan de nguoi dung truy cap-->
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                
-
-                <div class = 'form-inline my-2 my-lg-0'>
+                <div class = 'hello'>
                   <span> {{request.user}}</span>
-                <span> <a href = "{% url 'logout' %}" > Logout </a></span>
                 </div>
                 
+
+                <div class = 'logout'>
+                  
+                <span> <a href = "{% url 'logout' %}" > Logout </a></span>
+                </div>
+                <div class = 'dangnhap'>
+                <span> <a href = "{% url 'logout' %}" > Đăng Nhập </a></span>
+                </div>
                 
               </ul>
-              <div class = 'form-inline my-2 my-lg-0'>
+              <div class = 'cartt'>
                 <a href = "{% url 'cart' %}"><img id = "cart-icon" src = "{% static "images/cart.png" %}"></a>
                 <p id = 'cart-total'> {{cartItems}} </p>
               </div>
@@ -114,7 +114,7 @@
           {% block content%}{% endblock content%}
         <!--footer-->
         <footer class="container-fluid bg-success text-center fixed-bottom p-2 mt-5">
-          copyright 2024
+          Duc Trung 2024
       </footer>
       <script src="{% static 'app/js/cartc.js'%}"></script>
     </body>
@@ -129,7 +129,7 @@
     <meta name="author" content="VNPAY">
     <title>{{ title }}</title>
     <!-- Bootstrap core CSS -->
-    <link href="{% static "payment_css/css/bootstrap.min.css" %}" rel="stylesheet"/>
+    <!--<link href="{% static "payment_css/css/bootstrap.min.css" %}" rel="stylesheet"/>-->
     <!-- Custom styles for this template -->
     <link href="{% static "payment_css/css/jumbotron-narrow.css" %}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

@@ -22,5 +22,6 @@ urlpatterns = [
     path('payment_return',views.payment_return, name='payment_return'),
     path('query',views.query, name='query'),
     path('refund',views.refund, name='refund'),
-    
+    path('data_create',views.data_create, name='data_create'),
+
 ]

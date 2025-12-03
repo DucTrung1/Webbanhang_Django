@@ -1,41 +1,48 @@
-{% extends 'app/base.html'%}
-{% load static %}
-{% block title %}All Prediction{% endblock %}
+{% load humanize %}
 
-{% block content  %}
-<div class="container">
-    <div class="row mt-4">
-        <div class="col-md-8 offset-md-2">
-            <table class="table">
-                <thead>
-                  
-                  <tr>
-                    <th scope="col"></th> 
-                    <th scope="col">date_block_num</th>
-                    <th scope="col">shop_id</th>
-                    <th scope="col">item_id</th>
-                    <th scope="col">item_price</th>
-                    <th scope="col">item_cnt_day</th>
-                    <th scope="col">name</th>
-                    <th scope="col">Prediction</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for data in predicted_sales %}
-                  <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ data.date_block_num }}</td>
-                    <td>{{ data.shop_id }}</td>
-                    <td>{{ data.item_id }}</td>
-                    <td>{{ data.item_price }}</td>
-                    <td>{{ data.item_cnt_day }}</td>
-                    <td>{{ data.name }}</td>
-                    <td>{{ data.predictions }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán giá xe</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2 class="text-center">Kết quả dự đoán giá xe</h2>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                {% if predicted_price is not None %}
+                    <p><strong>Giá dự đoán (Predicted Price):</strong> {{ predicted_price|floatformat:0|intcomma }} VND</p>
+                {% else %}
+                    <p>Không có kết quả dự đoán.</p>
+                {% endif %}
+            </div>
         </div>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.mmr.id_for_label }}">MMR</label>
+                {{ form.mmr }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.condition.id_for_label }}">Condition</label>
+                {{ form.condition }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.odometer.id_for_label }}">Odometer</label>
+                {{ form.odometer }}
+            </div>
+            <button type="submit" class="btn btn-primary">Dự đoán</button>
+        </form>
+        
     </div>
-</div>
-{% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

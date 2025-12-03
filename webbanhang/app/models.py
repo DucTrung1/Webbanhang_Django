@@ -1,14 +1,16 @@
+import collections
 from tkinter import CENTER
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MaxValueValidator, MinValueValidator
-import joblib
+import torch
 from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
-
+import torch
+import torch.nn as nn
 class Payment_VNPay(models.Model):
     order_id = models.CharField(max_length=50, null=True, blank=True)
     amount = models.FloatField(default=0.0, null=True, blank=True)
@@ -28,25 +30,12 @@ class PaymentForm(forms.Form):
 
 
 class Data(models.Model):
-    date_block_num = models.IntegerField()
-    shop_id = models.IntegerField()
-    item_id = models.IntegerField()
-    item_price = models.FloatField()
-    item_cnt_day = models.FloatField()
-    name = models.CharField(max_length=255)
-    predictions = models.CharField(max_length=100, blank=True)
-
-    def save(self, *args, **kwargs):
-        ml_model = joblib.load('app/templates/app/ml_model.joblib')
-        self.predictions = ml_model.predict(
-            [[self.date_block_num, self.shop_id, self.item_id,self.item_price,self.item_cnt_day]])
-        return super().save(*args, *kwargs)
-
-    class Meta:
-        ordering = ['-date_block_num']
+    mmr = models.FloatField()
+    condition = models.FloatField()
+    odometer = models.FloatField()
 
     def __str__(self):
-        return self.name
+        return f"MMR: {self.mmr}, Condition: {self.condition}, Odometer: {self.odometer}"
 
 #category(danh muc)
 class Category(models.Model):
@@ -74,11 +63,12 @@ class CreateUserForm(UserCreationForm):
 class Product(models.Model):
     category = models.ManyToManyField(Category, related_name = 'product')
     name = models.CharField(max_length=200, null=True)
-    gia = models.FloatField()
+    gia = models.IntegerField()
     digital = models.BooleanField(default=False)
-    image = models.ImageField(null=True, blank=True)
+    image = models.ImageField()
     detail = models.TextField(null=True,blank=True)
-    
+    feature_vector = models.TextField(null=True, blank=True)  
+
 
     def __str__(self):
         return self.name 
@@ -112,6 +102,7 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.get_total for item in orderitems])
         return total
+
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
@@ -119,8 +110,11 @@ class OrderItem(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     @property
     def get_total(self):
-        total = self.product.gia * self.quantity
-        return total
+        if self.product is not None:  
+            total = self.product.gia * self.quantity
+            return total
+        else:
+            return 0
 
 
 def validate_email(value):

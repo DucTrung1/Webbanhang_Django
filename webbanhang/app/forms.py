@@ -6,7 +6,12 @@ from .models import ShippingAddress
 class DataForm(forms.ModelForm):
     class Meta:
         model = Data
-        fields = ['name','date_block_num', 'shop_id', 'item_id', 'item_price', 'item_cnt_day']
+        fields = ['mmr', 'condition', 'odometer']
+        widgets = {
+            'mmr': forms.NumberInput(attrs={'class': 'form-control'}),
+            'condition': forms.NumberInput(attrs={'class': 'form-control'}),
+            'odometer': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
 
 class ShippingForm(forms.ModelForm):
